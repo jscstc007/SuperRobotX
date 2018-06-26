@@ -80,8 +80,11 @@ public class GameController : MonoBehaviour {
     /// <summary>
     /// 主角
     /// </summary>
-    private static GameObject MainRobot;
-
+    public static GameObject MainRobot;
+    /// <summary>
+    /// 主角
+    /// </summary>
+    public static Transform MainRobotTransform;
 
     /// <summary>
     /// 初始化主角并开始游戏
@@ -101,13 +104,28 @@ public class GameController : MonoBehaviour {
         //根据角色数据生成主角
         GameObject robotGo = Resources.Load<GameObject>(robotName);
         MainRobot = Instantiate(robotGo);
+        MainRobotTransform = MainRobot.transform;
 
-        MainRobot.transform.SetParent(PlayerGroup);
-        MainRobot.transform.localPosition = BEGIN_POS;
-        MainRobot.transform.localEulerAngles = Vector3.zero;
-        MainRobot.transform.localScale = 5 * Vector3.one;//TODO 
+        MainRobotTransform.SetParent(PlayerGroup);
+        MainRobotTransform.localPosition = BEGIN_POS;
+        MainRobotTransform.localEulerAngles = Vector3.zero;
+        MainRobotTransform.localScale = 5 * Vector3.one;//TODO 
 
         MainRobot.AddComponent<RobotController>();
+
+        //定时生成敌人
+        InvokeRepeating("CreateEnemeyInTime",1f,1f);
+    }
+
+    /// <summary>
+    /// 关闭游戏 返回主界面
+    /// </summary>
+    public void StopGameAndReturnToMenu ()
+    {
+        CancelInvoke("CreateEnemeyInTime");
+
+        DestroyPlayer();
+        PoolManager.Instance.ClearAllEnemyAndBullet();
     }
 
     /// <summary>
@@ -120,5 +138,10 @@ public class GameController : MonoBehaviour {
         {
             Destroy(MainRobot);
         }
+    }
+
+    private void CreateEnemeyInTime ()
+    {
+        PoolManager.Instance.CreateEnemy(EnemyType.Enemy_Base);
     }
 }

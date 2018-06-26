@@ -38,9 +38,29 @@ public class RobotController : MonoBehaviour {
     void Start () {
         
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void OnEnable()
+    {
+        RegistEvent();
+    }
+
+    private void OnDisable()
+    {
+        RemoveEvent();
+    }
+
+    private void RegistEvent()
+    {
+        EventManager.Instance.RegistEvent(EventType.PlayerHPChange, OnCheckRobotHP);
+    }
+
+    private void RemoveEvent()
+    {
+        EventManager.Instance.RemoveEvent(EventType.PlayerHPChange, OnCheckRobotHP);
+    }
+
+    // Update is called once per frame
+    void Update () {
         //操控
         ControlRobot();
         //战斗
@@ -96,6 +116,21 @@ public class RobotController : MonoBehaviour {
         if (Time.frameCount % 30 == 0)
         {
             PoolManager.Instance.CreateBullet(BulletType.Bullet_Base, RobotTransform);
+        }
+    }
+
+    /// <summary>
+    /// 检测机器人血量
+    /// </summary>
+    /// <param name="data"></param>
+    private void OnCheckRobotHP (params int[] data)
+    {
+        if (RobotInfo.Instance.HP <= 0)
+        {
+            Debug.Log("Dead");
+
+            //TODO
+            
         }
     }
 }
