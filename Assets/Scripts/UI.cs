@@ -11,6 +11,8 @@ public class UI : MonoBehaviour {
     private Transform DIYP;
     private Transform GameP;
 
+    private Transform PauseP;
+
     private void Awake()
     {
         UIRoot = transform;
@@ -18,6 +20,8 @@ public class UI : MonoBehaviour {
         MenuP = UIRoot.Find("Menu_P");
         DIYP = UIRoot.Find("DIY_P");
         GameP = UIRoot.Find("Game_P");
+
+        PauseP = GameP.Find("Pause_P");
     }
 
     // Use this for initialization
@@ -44,6 +48,13 @@ public class UI : MonoBehaviour {
         //DIY
 
         //GAME
+        Button pauseB = GameP.Find("Pause_B").GetComponent<Button>();
+        pauseB.onClick.AddListener(PauseGame);
+
+        Button resumeB = PauseP.Find("Resume_B").GetComponent<Button>();
+        resumeB.onClick.AddListener(ResumeGame);
+        Button exitB = PauseP.Find("Exit_B").GetComponent<Button>();
+        exitB.onClick.AddListener(ReturnToMenu);
     }
 
     private void RemoveUIMethod ()
@@ -71,5 +82,25 @@ public class UI : MonoBehaviour {
         GameP.gameObject.SetActive(false);
 
         //TODO
+    }
+
+    private void PauseGame ()
+    {
+        //TODO
+        PauseP.gameObject.SetActive(true);
+    }
+
+    private void ResumeGame ()
+    {
+        //TODO
+        PauseP.gameObject.SetActive(false);
+    }
+
+    private void ReturnToMenu ()
+    {
+        //TODO
+        PauseP.gameObject.SetActive(false);
+
+        InitUI();
     }
 }
