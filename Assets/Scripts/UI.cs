@@ -26,16 +26,18 @@ public class UI : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        InitUI();
+        InitMenuUI();
 
         RegistUIMethod();
     }
 
-    private void InitUI ()
+    private void InitMenuUI ()
     {
         MenuP.gameObject.SetActive(true);
         DIYP.gameObject.SetActive(false);
         GameP.gameObject.SetActive(false);
+
+        PauseP.gameObject.SetActive(false);
     }
 
     private void RegistUIMethod ()
@@ -70,6 +72,8 @@ public class UI : MonoBehaviour {
         MenuP.gameObject.SetActive(false);
         DIYP.gameObject.SetActive(false);
         GameP.gameObject.SetActive(true);
+
+        GameController.Instance.CreatePlayerAndStartGame();
     }
 
     /// <summary>
@@ -101,6 +105,9 @@ public class UI : MonoBehaviour {
         //TODO
         PauseP.gameObject.SetActive(false);
 
-        InitUI();
+        GameController.Instance.DestroyPlayer();
+        PoolManager.Instance.ClearAllEnemyAndBullet();
+
+        InitMenuUI();
     }
 }
