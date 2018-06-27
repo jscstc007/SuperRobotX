@@ -44,10 +44,9 @@ public class PoolManager : ISingleton<PoolManager>
     private BaseEnemyController CreateEnemyUtil(EnemyType type)
     {
         //根据类型 生成数据
-        //TEST
-        BaseEnemyInfo data = new BaseEnemyInfo(type, "enemy_0", 3f, 50, 50, null, 100, 40);
+        BaseEnemyInfo data = EnemyInfo.Instance.LoadBaseEnemyData(type);
 
-        GameObject enemyGo = ResourcesLoadManager.LoadResources<GameObject>(data.enemyResName);
+        GameObject enemyGo = ResourcesLoadManager.LoadEnemyResources<GameObject>(data.enemyResName);
         GameObject enemy = GameObject.Instantiate<GameObject>(enemyGo);
         enemy.transform.SetParent(GameController.Instance.EnemyGroup);
 
@@ -99,7 +98,7 @@ public class PoolManager : ISingleton<PoolManager>
         //根据子弹类型 生成数据
         BaseBulletInfo data = BulletInfo.Instance.GetBulletData(type, power);
 
-        GameObject bulletGo = ResourcesLoadManager.LoadResources<GameObject>(data.bulletResName);
+        GameObject bulletGo = ResourcesLoadManager.LoadBulletResources<GameObject>(data.bulletResName);
         GameObject bullet = GameObject.Instantiate<GameObject>(bulletGo);
         bullet.transform.SetParent(GameController.Instance.BulletGroup);
 

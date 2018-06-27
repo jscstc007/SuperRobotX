@@ -132,7 +132,7 @@ public class GameController : MonoBehaviour {
         string robotName = "Player";
         
         //根据角色数据生成主角
-        GameObject robotGo = ResourcesLoadManager.LoadResources<GameObject>(robotName);
+        GameObject robotGo = ResourcesLoadManager.LoadRobotResources<GameObject>(robotName);
         MainRobot = Instantiate(robotGo);
         MainRobotTransform = MainRobot.transform;
 
@@ -151,10 +151,27 @@ public class GameController : MonoBehaviour {
             GameTime += Time.deltaTime;
 
             //生成敌人
+
             //TODO
             if (Time.frameCount % 30 == 0)
             {
-                PoolManager.Instance.CreateEnemy(EnemyType.Base_Lv1);
+                //测试(现机制随即生成3种敌人之一)
+                int random = Random.Range(0, 100);
+                EnemyType enemyType = EnemyType.Base_Lv1;
+                if (0 < random && random < 50)
+                {
+                    enemyType = EnemyType.Base_Lv1;
+                }
+                if (50 < random && random < 80)
+                {
+                    enemyType = EnemyType.Base_Lv2;
+                }
+                if (80 < random && random < 100)
+                {
+                    enemyType = EnemyType.Base_Lv3;
+                }
+
+                PoolManager.Instance.CreateEnemy(enemyType);
             }
         }
     }

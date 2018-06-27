@@ -47,11 +47,18 @@ public class WeaponInfo : ISingleton<WeaponInfo> {
     /// <summary>
     /// 根据子弹速度获得设计频率
     /// </summary>
-    /// <param name="speed"></param>
-    /// <returns></returns>
     public static int GetWeaponShootFrame (int speed)
     {
         //TODO
         return (60 * 10 / speed);
+    }
+
+    /// <summary>
+    /// 获得一个武器信息(默认为0级武器)
+    /// </summary>
+    public BaseWeaponInfo GetBaseWeaponData (WeaponType type,int weaponLevel = 0)
+    {
+        //TODO
+        return null;
     }
 }

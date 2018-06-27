@@ -1,0 +1,27 @@
+{
+  "30101": {
+    "res": "enemy_base_1",
+    "speed": 2,
+    "maxHP": 40,
+    "weapons": "",
+    "hit": 20,
+    "score": 30
+  }
+  ,
+  "30102": {
+    "res": "enemy_base_2",
+    "speed": 5,
+    "maxHP": 20,
+    "weapons": "",
+    "hit": 10,
+    "score": 50
+  },
+  "30103": {
+    "res": "enemy_base_3",
+    "speed": 10,
+    "maxHP": 5,
+    "weapons": "",
+    "hit": 5,
+    "score": 80
+  }
+}
