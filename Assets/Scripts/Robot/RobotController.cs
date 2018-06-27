@@ -28,7 +28,7 @@ public class RobotController : MonoBehaviour {
     //临时数据 记录鼠标按下时的位置
     private Vector3 tempMouseDownPoint;
 
-    private void Awake()
+    private void Awake() 
     {
         robotSprite = GetComponent<SpriteRenderer>();
         robotTransform = GetComponent<Transform>();
@@ -61,10 +61,14 @@ public class RobotController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        //操控
-        ControlRobot();
-        //战斗
-        AutoFight();
+
+        if (GameController.IsGame && !GameController.IsPause)
+        {
+            //操控
+            ControlRobot();
+            //战斗
+            AutoFight();
+        }
     }
 
     /// <summary>
@@ -113,9 +117,22 @@ public class RobotController : MonoBehaviour {
     /// </summary>
     private void AutoFight ()
     {
-        if (Time.frameCount % 30 == 0)
+        //武器模块
+        BaseWeaponInfo[] baseWeapons = RobotInfo.Instance.WeaponModule;
+        if (null != baseWeapons)
         {
-            PoolManager.Instance.CreateBullet(BulletType.Bullet_Base, RobotTransform);
+            foreach (BaseWeaponInfo weapon in baseWeapons)
+            {
+                int speed = weapon.shootSpeed + weapon.shootSpeedUpPerLevel * weapon.weaponLevel;
+                int power = weapon.shootPower + weapon.shootPowerUpPerLevel * weapon.weaponLevel;
+
+                int frame = WeaponInfo.GetWeaponShootFrame(speed);
+
+                if (Time.frameCount % frame == 0)
+                {
+                    PoolManager.Instance.CreateBullet(weapon.weaponBulletType, RobotTransform, power);
+                }
+            }
         }
     }
 
@@ -127,10 +144,7 @@ public class RobotController : MonoBehaviour {
     {
         if (RobotInfo.Instance.HP <= 0)
         {
-            Debug.Log("Dead");
-
-            //TODO
-            
+            GameController.Instance.GameOver();
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI : MonoBehaviour {
+public class UIController : MonoBehaviour {
 
     private Transform UIRoot;
 
@@ -15,6 +15,7 @@ public class UI : MonoBehaviour {
     private Text hpT;
     private Text scoreT;
     private Transform PauseP;
+    private Transform GameOverP;
 
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class UI : MonoBehaviour {
         hpT = GameP.Find("HP_I/Value_T").GetComponent<Text>();
         scoreT = GameP.Find("Score_T").GetComponent<Text>();
         PauseP = GameP.Find("Pause_P");
+        GameOverP = GameP.Find("GameOver_P");
     }
 
     // Use this for initialization
@@ -42,6 +44,7 @@ public class UI : MonoBehaviour {
         GameP.gameObject.SetActive(false);
 
         PauseP.gameObject.SetActive(false);
+        GameOverP.gameObject.SetActive(false);
     }
 
     private void RegistUIMethod ()
@@ -61,6 +64,8 @@ public class UI : MonoBehaviour {
         resumeB.onClick.AddListener(ResumeGame);
         Button exitB = PauseP.Find("Exit_B").GetComponent<Button>();
         exitB.onClick.AddListener(ReturnToMenu);
+        Button gameoverB = GameOverP.Find("Exit_B").GetComponent<Button>();
+        gameoverB.onClick.AddListener(ReturnToMenu);
     }
 
     private void OnEnable()
@@ -101,6 +106,9 @@ public class UI : MonoBehaviour {
         DIYP.gameObject.SetActive(false);
         GameP.gameObject.SetActive(true);
 
+        PauseP.gameObject.SetActive(false);
+        GameOverP.gameObject.SetActive(false);
+
         GameController.Instance.CreatePlayerAndStartGame();
     }
 
@@ -116,23 +124,39 @@ public class UI : MonoBehaviour {
         //TODO
     }
 
+    /// <summary>
+    /// 暂停游戏
+    /// </summary>
     private void PauseGame ()
     {
-        //TODO
         PauseP.gameObject.SetActive(true);
+
+        GameController.IsPause = true;
     }
 
+    /// <summary>
+    /// 继续游戏
+    /// </summary>
     private void ResumeGame ()
     {
-        //TODO
         PauseP.gameObject.SetActive(false);
+
+        GameController.IsPause = false;
     }
 
+    /// <summary>
+    /// 展示游戏结束UI
+    /// </summary>
+    public void ShowGameOverUI ()
+    {
+        GameOverP.gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// 退出游戏 返回主界面
+    /// </summary>
     private void ReturnToMenu ()
     {
-        //TODO
-        PauseP.gameObject.SetActive(false);
-
         InitMenuUI();
 
         GameController.Instance.StopGameAndReturnToMenu();

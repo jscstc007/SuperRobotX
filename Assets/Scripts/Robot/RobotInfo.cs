@@ -64,4 +64,24 @@ public class RobotInfo : ISingleton<RobotInfo> {
             EventManager.Instance.ExcuteEvent(EventType.PlayerScoreChange, score);
         }
     }
+
+    private BaseWeaponInfo[] weaponModule;
+    /// <summary>
+    /// 当前武器模块
+    /// </summary>
+    public BaseWeaponInfo[] WeaponModule
+    {
+        get
+        {
+            //TODO
+            BaseWeaponInfo[] test = new BaseWeaponInfo[] { new BaseWeaponInfo(WeaponType.Base_BB, "测试", BulletType.Base_Lv1, 5, 20, 20, 2, 15, 2) };
+            return test;
+
+            //return weaponModule;
+        }
+        set
+        {
+            weaponModule = value;
+        }
+    }
 }

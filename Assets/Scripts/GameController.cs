@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
+    #region 组件信息
     private static GameController instance;
     public static GameController Instance
     {
@@ -66,6 +67,23 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    private UIController UI;
+    /// <summary>
+    /// UI组件
+    /// </summary>
+    public UIController UIControl
+    {
+        get
+        {
+            if (null == UI)
+            {
+                UI = GameObject.Find("/UI").GetComponent<UIController>();
+            }
+            return UI;
+        }
+    }
+    #endregion
+
     private void Awake()
     {
         //设置帧率
@@ -82,25 +100,41 @@ public class GameController : MonoBehaviour {
     /// </summary>
     public static GameObject MainRobot;
     /// <summary>
-    /// 主角
+    /// 主角Transform
     /// </summary>
     public static Transform MainRobotTransform;
 
     /// <summary>
-    /// 初始化主角并开始游戏
+    /// 是否处于游戏状态
+    /// </summary>
+    public static bool IsGame = false;
+    /// <summary>
+    /// 是否处于暂停状态
+    /// </summary>
+    public static bool IsPause = false;
+
+    /// <summary>
+    /// 开始游戏 初始化主角
     /// </summary>
     public void CreatePlayerAndStartGame ()
     {
+        IsGame = true;
+        IsPause = false;
+
         //如果主角还存在 则销毁主角
         if (null != MainRobot)
         {
             Destroy(MainRobot);
         }
 
-        //读取当前主角数据
+        //重置一部分数据
+        RobotInfo.Instance.Score = 0;
+        RobotInfo.Instance.HP = RobotInfo.Instance.MaxHP;
+
+        //读取当前主角数据 
         //TODO
         string robotName = "Player";
-
+        
         //根据角色数据生成主角
         GameObject robotGo = Resources.Load<GameObject>(robotName);
         MainRobot = Instantiate(robotGo);
@@ -118,10 +152,23 @@ public class GameController : MonoBehaviour {
     }
 
     /// <summary>
+    /// 游戏结束
+    /// </summary>
+    public void GameOver ()
+    {
+        IsPause = true;
+
+        UIControl.ShowGameOverUI();
+    }
+
+    /// <summary>
     /// 关闭游戏 返回主界面
     /// </summary>
     public void StopGameAndReturnToMenu ()
     {
+        IsGame = false;
+        IsPause = false;
+
         CancelInvoke("CreateEnemeyInTime");
 
         DestroyPlayer();
@@ -140,8 +187,11 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// 定时生成敌人
+    /// </summary>
     private void CreateEnemeyInTime ()
     {
-        PoolManager.Instance.CreateEnemy(EnemyType.Enemy_Base);
+        PoolManager.Instance.CreateEnemy(EnemyType.Base_Lv1);
     }
 }
