@@ -90,28 +90,21 @@ public class GameController : MonoBehaviour {
         Application.targetFrameRate = 60;
     }
 
-    /// <summary>
-    /// 玩家初始位置
-    /// </summary>
+    /// <summary> 玩家初始位置 </summary>
     private static Vector3 BEGIN_POS = new Vector3(0, -8, 0);
 
-    /// <summary>
-    /// 主角
-    /// </summary>
+    /// <summary> 主角 </summary>
     public static GameObject MainRobot;
-    /// <summary>
-    /// 主角Transform
-    /// </summary>
+    /// <summary> 主角Transform </summary>
     public static Transform MainRobotTransform;
 
-    /// <summary>
-    /// 是否处于游戏状态
-    /// </summary>
+    /// <summary> 是否处于游戏状态 </summary>
     public static bool IsGame = false;
-    /// <summary>
-    /// 是否处于暂停状态
-    /// </summary>
+    /// <summary> 是否处于暂停状态 </summary>
     public static bool IsPause = false;
+
+    /// <summary> 当前游戏时间 </summary>
+    public float GameTime = 0;
 
     /// <summary>
     /// 开始游戏 初始化主角
@@ -128,15 +121,18 @@ public class GameController : MonoBehaviour {
         }
 
         //重置一部分数据
+        GameTime = 0;
+
         RobotInfo.Instance.Score = 0;
         RobotInfo.Instance.HP = RobotInfo.Instance.MaxHP;
+        
 
         //读取当前主角数据 
         //TODO
         string robotName = "Player";
         
         //根据角色数据生成主角
-        GameObject robotGo = Resources.Load<GameObject>(robotName);
+        GameObject robotGo = ResourcesLoadManager.LoadResources<GameObject>(robotName);
         MainRobot = Instantiate(robotGo);
         MainRobotTransform = MainRobot.transform;
 
@@ -146,9 +142,21 @@ public class GameController : MonoBehaviour {
         MainRobotTransform.localScale = 5 * Vector3.one;//TODO 
 
         MainRobot.AddComponent<RobotController>();
+    }
 
-        //定时生成敌人
-        InvokeRepeating("CreateEnemeyInTime",1f,1f);
+    private void Update()
+    {
+        if (IsGame && !IsPause)
+        {
+            GameTime += Time.deltaTime;
+
+            //生成敌人
+            //TODO
+            if (Time.frameCount % 30 == 0)
+            {
+                PoolManager.Instance.CreateEnemy(EnemyType.Base_Lv1);
+            }
+        }
     }
 
     /// <summary>
@@ -169,8 +177,6 @@ public class GameController : MonoBehaviour {
         IsGame = false;
         IsPause = false;
 
-        CancelInvoke("CreateEnemeyInTime");
-
         DestroyPlayer();
         PoolManager.Instance.ClearAllEnemyAndBullet();
     }
@@ -185,13 +191,5 @@ public class GameController : MonoBehaviour {
         {
             Destroy(MainRobot);
         }
-    }
-
-    /// <summary>
-    /// 定时生成敌人
-    /// </summary>
-    private void CreateEnemeyInTime ()
-    {
-        PoolManager.Instance.CreateEnemy(EnemyType.Base_Lv1);
     }
 }
