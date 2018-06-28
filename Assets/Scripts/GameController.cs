@@ -90,6 +90,16 @@ public class GameController : MonoBehaviour {
         Application.targetFrameRate = 60;
     }
 
+    private void Start()
+    {
+        //加载信息
+        //读取当前主角数据 
+
+        //TODO
+        RobotInfo.Instance.robotInfo = RobotInfo.Instance.LoadBaseRobotData(RobotType.Base_Plane, 0);
+        RobotInfo.Instance.WeaponModule = new BaseWeaponInfo[] { WeaponInfo.Instance.LoadBaseWeaponData(WeaponType.Base_BB, 0) };
+    }
+
     /// <summary> 玩家初始位置 </summary>
     private static Vector3 BEGIN_POS = new Vector3(0, -8, 0);
 
@@ -103,7 +113,9 @@ public class GameController : MonoBehaviour {
     /// <summary> 是否处于暂停状态 </summary>
     public static bool IsPause = false;
 
+
     /// <summary> 当前游戏时间 </summary>
+    [HideInInspector]
     public float GameTime = 0;
 
     /// <summary>
@@ -119,13 +131,7 @@ public class GameController : MonoBehaviour {
         {
             Destroy(MainRobot);
         }
-
-        //读取当前主角数据 
-
-        //TODO
-        RobotInfo.Instance.robotInfo = RobotInfo.Instance.LoadBaseRobotData(RobotType.Base_Plane, 0);
-        RobotInfo.Instance.WeaponModule = new BaseWeaponInfo[] { WeaponInfo.Instance.LoadBaseWeaponData(WeaponType.Base_BB,0) };
-
+        
         //重置数据
         GameTime = 0;
 

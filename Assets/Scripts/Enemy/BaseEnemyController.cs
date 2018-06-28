@@ -94,7 +94,7 @@ public class BaseEnemyController : MonoBehaviour
                 {
                     Vector3 forwardDir = GameController.MainRobotTransform.position - cacheTransform.position;
 
-                    cacheTransform.up = forwardDir;
+                    cacheTransform.up = forwardDir.normalized;
                 }
                 cacheTransform.localPosition += baseEnemyInfo.moveSpeed * Time.deltaTime * cacheTransform.up;
             }
