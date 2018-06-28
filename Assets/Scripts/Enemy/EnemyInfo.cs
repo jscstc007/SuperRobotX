@@ -44,7 +44,6 @@ public class BaseEnemyInfo
 
 public class EnemyInfo : ISingleton<EnemyInfo>
 {
-
     /// <summary>
     /// 已加载过的敌军数据
     /// </summary>
@@ -97,7 +96,7 @@ public class EnemyInfo : ISingleton<EnemyInfo>
             {
                 for (int i = 0; i < count; i++)
                 {
-                    weaponModule[i] = WeaponInfo.Instance.GetBaseWeaponData((WeaponType)(int.Parse(weaponstrs[i])), weaponLevel);
+                    weaponModule[i] = WeaponInfo.Instance.LoadBaseWeaponData((WeaponType)(int.Parse(weaponstrs[i])), weaponLevel);
                 }
             }
             //默认满血量

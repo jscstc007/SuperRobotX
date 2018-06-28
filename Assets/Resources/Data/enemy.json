@@ -10,7 +10,7 @@
   ,
   "30102": {
     "res": "enemy_base_2",
-    "speed": 5,
+    "speed": 4,
     "maxHP": 20,
     "weapons": "",
     "hit": 10,
@@ -18,7 +18,7 @@
   },
   "30103": {
     "res": "enemy_base_3",
-    "speed": 10,
+    "speed": 6,
     "maxHP": 5,
     "weapons": "",
     "hit": 5,

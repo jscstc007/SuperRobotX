@@ -121,8 +121,10 @@ public class GameController : MonoBehaviour {
         }
 
         //读取当前主角数据 
+
         //TODO
         RobotInfo.Instance.robotInfo = RobotInfo.Instance.LoadBaseRobotData(RobotType.Base_Plane, 0);
+        RobotInfo.Instance.WeaponModule = new BaseWeaponInfo[] { WeaponInfo.Instance.LoadBaseWeaponData(WeaponType.Base_BB,0) };
 
         //重置数据
         GameTime = 0;
