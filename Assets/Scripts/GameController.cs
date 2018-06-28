@@ -114,25 +114,25 @@ public class GameController : MonoBehaviour {
         IsGame = true;
         IsPause = false;
 
-        //如果主角还存在 则销毁主角
+        //如果主角精灵还存在 则销毁主角
         if (null != MainRobot)
         {
             Destroy(MainRobot);
         }
 
-        //重置一部分数据
+        //读取当前主角数据 
+        //TODO
+        RobotInfo.Instance.robotInfo = RobotInfo.Instance.LoadBaseRobotData(RobotType.Base_Plane, 0);
+
+        //重置数据
         GameTime = 0;
 
         RobotInfo.Instance.Score = 0;
-        RobotInfo.Instance.HP = RobotInfo.Instance.MaxHP;
-        
+        RobotInfo.Instance.HP = RobotInfo.Instance.robotInfo.maxHP;
 
-        //读取当前主角数据 
-        //TODO
-        string robotName = "Player";
-        
+        string resName = RobotInfo.Instance.robotInfo.robotResName;
         //根据角色数据生成主角
-        GameObject robotGo = ResourcesLoadManager.LoadRobotResources<GameObject>(robotName);
+        GameObject robotGo = ResourcesLoadManager.LoadRobotResources<GameObject>(resName);
         MainRobot = Instantiate(robotGo);
         MainRobotTransform = MainRobot.transform;
 

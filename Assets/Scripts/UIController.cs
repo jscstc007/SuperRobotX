@@ -167,8 +167,8 @@ public class UIController : MonoBehaviour {
     /// </summary>
     private void OnUpdateUI_HP (params int[] data)
     {
-        hpI.fillAmount = (float)RobotInfo.Instance.HP / (float)RobotInfo.Instance.MaxHP;
-        hpT.text = string.Format("{0}/{1}", RobotInfo.Instance.HP, RobotInfo.Instance.MaxHP);
+        hpI.fillAmount = (float)RobotInfo.Instance.HP / (float)RobotInfo.Instance.robotInfo.maxHP;
+        hpT.text = string.Format("{0}/{1}", RobotInfo.Instance.HP, RobotInfo.Instance.robotInfo.maxHP);
     }
     /// <summary>
     /// 更新分数信息
