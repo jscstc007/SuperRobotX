@@ -3,7 +3,7 @@
     "name": "基础火炮",
     "info": "性能均衡的火炮",
     "res": "base_weapon_1",
-    "bullet": 10101,
+    "bullet": 80101,
     "shootSpeed": 50,
     "shootSpeedUp": 5,
     "power": 8,

@@ -120,7 +120,7 @@ public class BaseBulletController : MonoBehaviour
                 //根据追击类别进行移动
                 if (baseBulletInfo.bulletSearchTargetType == BulletSearchTargetType.GoForward)
                 {
-                    cacheTransform.localPosition += baseBulletInfo.moveSpeed * Time.deltaTime * Vector3.up;
+                    cacheTransform.localPosition += baseBulletInfo.moveSpeed * Time.deltaTime * Vector3.up / 100f;
 
                     //超边界判定 TODO
                 }

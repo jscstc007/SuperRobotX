@@ -1,0 +1,9 @@
+{
+  "80101": {
+    "res": "bullet_base_1",
+    "searchType": 1,
+    "speed": 300,
+    "maxTime": 5,
+    "shootNum": 1
+  }
+}

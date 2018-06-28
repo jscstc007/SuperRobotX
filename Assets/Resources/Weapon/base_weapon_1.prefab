@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4462124976978526}
   - component: {fileID: 212004274723370460}
   m_Layer: 0
-  m_Name: BulletBombSpriteSheetBlue_0
+  m_Name: base_weapon_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
