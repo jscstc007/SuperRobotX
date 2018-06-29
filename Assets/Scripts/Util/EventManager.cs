@@ -6,6 +6,7 @@ public enum EventType
 {
     PlayerHPChange,
     PlayerScoreChange,
+    PlayerCoinChange,
 }
 
 public class EventManager : ISingleton<EventManager> {

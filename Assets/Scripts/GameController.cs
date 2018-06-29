@@ -96,8 +96,9 @@ public class GameController : MonoBehaviour {
         //读取当前主角数据 
 
         //TODO
-        RobotInfo.Instance.robotInfo = RobotInfo.Instance.LoadBaseRobotData(RobotType.Base_Plane, 0);
-        RobotInfo.Instance.WeaponModule = new BaseWeaponInfo[] { WeaponInfo.Instance.LoadBaseWeaponData(WeaponType.Base_BB, 0) };
+        RobotInfo.Instance.Coin = 80000;
+        RobotInfo.Instance.MainRobotInfo = RobotInfo.Instance.LoadBaseRobotData(RobotType.Base_Plane, 0);
+        RobotInfo.Instance.WeaponModule = new BaseWeaponInfo[] { WeaponInfo.Instance.LoadBaseWeaponData(WeaponType.Base_BB_Lv1, 0) };
     }
 
     /// <summary> 玩家初始位置 </summary>
@@ -136,9 +137,9 @@ public class GameController : MonoBehaviour {
         GameTime = 0;
 
         RobotInfo.Instance.Score = 0;
-        RobotInfo.Instance.HP = RobotInfo.Instance.robotInfo.maxHP;
+        RobotInfo.Instance.HP = RobotInfo.Instance.MainRobotInfo.maxHP;
 
-        string resName = RobotInfo.Instance.robotInfo.robotResName;
+        string resName = RobotInfo.Instance.MainRobotInfo.robotResName;
         //根据角色数据生成主角
         GameObject robotGo = ResourcesLoadManager.LoadRobotResources<GameObject>(resName);
         MainRobot = Instantiate(robotGo);

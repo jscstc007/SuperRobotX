@@ -32,6 +32,14 @@ public class ResourcesLoadManager : ISingleton<ResourcesLoadManager> {
     /// <summary>
     /// 加载一个资源(仅加载)
     /// </summary>
+    public static T LoadWeaponResources<T>(string name) where T : Object
+    {
+        return LoadResources<T>(string.Format("Weapon/{0}", name));
+    }
+
+    /// <summary>
+    /// 加载一个资源(仅加载)
+    /// </summary>
     public static T LoadBulletResources<T>(string name) where T : Object
     {
         return LoadResources<T>(string.Format("Bullet/{0}", name));

@@ -6,6 +6,8 @@ using LitJson;
 public enum BulletType
 {
     Base_Lv1 = 80101,
+    Base_Lv2 = 80102,
+    Base_Lv3 = 80103,
 }
 
 public enum BulletSearchTargetType

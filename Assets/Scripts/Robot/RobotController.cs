@@ -105,7 +105,7 @@ public class RobotController : MonoBehaviour {
 #endif
 
         //进行位置修订
-        Vector3 finalPos = RobotTransform.localPosition + new Vector3(detalPos.x, detalPos.y) * Time.deltaTime * RobotInfo.Instance.robotInfo.moveSpeed / 100f;
+        Vector3 finalPos = RobotTransform.localPosition + new Vector3(detalPos.x, detalPos.y) * Time.deltaTime * RobotInfo.Instance.MainRobotInfo.moveSpeed / 100f;
         finalPos.x = Mathf.Clamp(finalPos.x ,- 5, 5);
         finalPos.y = Mathf.Clamp(finalPos.y ,- 8, 8);
 

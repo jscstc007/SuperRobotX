@@ -1,47 +1,54 @@
 {
   "10101": {
-    "name": "初心者1号",
-    "info": "性能均衡的战舰",
+    "name": "初心者号",
+    "info": "性能均衡的战舰,升级可扩充各项能力",
     "res": "robot_base_1",
     "attribute": [
       {
         "speed": 60,
         "maxHP": 40,
-        "weapon": 4,
-        "defense": 2,
-        "move": 2,
-        "other": 2
+        "weapon": 1,
+        "defense": 1,
+        "move": 1,
+        "other": 1,
+        "cost": 1000
       },
       {
         "speed": 60,
         "maxHP": 50,
-        "weapon": 4,
-        "defense": 2,
-        "move": 2,
-        "other": 2
-      }
-    ]
-  },
-  "10102": {
-    "name": "初心者2号",
-    "info": "性能均衡的战舰,略微提升了性能",
-    "res": "robot_base_2",
-    "attribute": [
-      {
-        "speed": 70,
-        "maxHP": 50,
-        "weapon": 5,
-        "defense": 2,
-        "move": 2,
-        "other": 2
+        "weapon": 2,
+        "defense": 1,
+        "move": 1,
+        "other": 1,
+        "cost": 1200
       },
       {
-        "speed": 70,
-        "maxHP": 80,
-        "weapon": 5,
+        "speed": 60,
+        "maxHP": 60,
+        "weapon": 3,
+        "defense": 1,
+        "move": 1,
+        "other": 1,
+        "cost": 2000
+      },
+      {
+        "speed": 60,
+        "maxHP": 60,
+        "weapon": 3,
         "defense": 2,
-        "move": 2,
-        "other": 2
+        "move": 1,
+        "other": 1,
+        "cost": 4000
+      }
+      ,
+      {
+        "speed": 60,
+        "maxHP": 80,
+        "weapon": 4,
+        "defense": 2,
+        "move": 1,
+        "other": 1,
+        "cost": 6000
       }
     ]
   }

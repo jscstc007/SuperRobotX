@@ -5,5 +5,19 @@
     "speed": 300,
     "maxTime": 5,
     "shootNum": 1
+  },
+  "80102": {
+    "res": "bullet_base_2",
+    "searchType": 1,
+    "speed": 300,
+    "maxTime": 5,
+    "shootNum": 1
+  },
+  "80103": {
+    "res": "bullet_base_3",
+    "searchType": 1,
+    "speed": 300,
+    "maxTime": 5,
+    "shootNum": 1
   }
 }
