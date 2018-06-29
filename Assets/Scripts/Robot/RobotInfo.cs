@@ -6,7 +6,6 @@ using LitJson;
 public enum RobotType
 {
     Base_Plane = 10101,
-    Base_Plane_Upgrade = 10102,
 }
 
 public class BaseRobotInfo
@@ -86,7 +85,6 @@ public class RobotInfo : ISingleton<RobotInfo>
     {
         BaseRobotInfo data = null;
 
-        string key = ((int)type).ToString();
         if (!LoadedData.ContainsKey(type))
         {
             data = LoadBaseRobotDataUtil(type, robotLevel);
@@ -205,8 +203,7 @@ public class RobotInfo : ISingleton<RobotInfo>
     }
 
     #region 模块数据
-
-    private BaseWeaponInfo[] weaponModule;
+    
     /// <summary>
     /// 当前武器模块
     /// </summary>
@@ -214,11 +211,16 @@ public class RobotInfo : ISingleton<RobotInfo>
     {
         get
         {
-            return weaponModule;
-        }
-        set
-        {
-            weaponModule = value;
+            List<BaseWeaponInfo> dataList = new List<BaseWeaponInfo>();
+            List<WeaponType> typeList = DataManager.Instance.LoadEquipWeapon();
+            foreach(WeaponType type in typeList)
+            {
+                int weaponLevel = DataManager.Instance.LoadWeaponLevel(type);
+                BaseWeaponInfo tempData = WeaponInfo.Instance.LoadBaseWeaponData(type, weaponLevel);
+
+                dataList.Add(tempData);
+            }
+            return dataList.ToArray();
         }
     }
 

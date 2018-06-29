@@ -42,47 +42,47 @@ public class BaseBulletController : MonoBehaviour
     /// <summary>
     /// 初始化子弹数据
     /// </summary>
-    public void InitBulletData(Transform parent, Transform self, BaseBulletInfo bulletInfo)
+    public void InitBulletData(Transform parent, Transform self,Vector3 pos, BaseBulletInfo bulletInfo)
     {
         parentTransform = parent;
         cacheTransform = self;
         cacheSpriteRender = self.GetComponent<SpriteRenderer>();
         baseBulletInfo = bulletInfo;
 
-        ResumeAndInitPosition();
+        ResumeAndInitPosition(pos);
     }
 
     /// <summary>
     /// 初始化子弹数据(仅变更父物体,其他数据保持不变)
     /// </summary>
-    public void InitBulletData(Transform parent)
+    public void InitBulletData(Transform parent, Vector3 pos)
     {
         parentTransform = parent;
-        ResumeAndInitPosition();
+        ResumeAndInitPosition(pos);
     }
 
     /// <summary>
     /// 初始化子弹数据(仅变更父物体和伤害,其他数据保持不变)
     /// </summary>
-    public void InitBulletData(Transform parent, int power)
+    public void InitBulletData(Transform parent, Vector3 pos, int power)
     {
         parentTransform = parent;
         baseBulletInfo.power = power;
-        ResumeAndInitPosition();
+        ResumeAndInitPosition(pos);
     }
 
     /// <summary>
     /// 初始化数据
     /// </summary>
-    private void ResumeAndInitPosition()
+    private void ResumeAndInitPosition(Vector3 pos)
     {
         IsUsing = true;
         NowLastTime = 0;
         cacheSpriteRender.enabled = true;
-
+        
         //设置位置信息
-        cacheTransform.localPosition = parentTransform.localPosition;
-        cacheTransform.localEulerAngles = parentTransform.localEulerAngles;
+        cacheTransform.localPosition = parentTransform.localPosition + new Vector3(pos.x,pos.y,0);
+        cacheTransform.localEulerAngles = parentTransform.localEulerAngles + new Vector3(0,0,pos.z);
         cacheTransform.localScale = Vector3.one;
     }
 
@@ -120,7 +120,7 @@ public class BaseBulletController : MonoBehaviour
                 //根据追击类别进行移动
                 if (baseBulletInfo.bulletSearchTargetType == BulletSearchTargetType.GoForward)
                 {
-                    cacheTransform.localPosition += baseBulletInfo.moveSpeed * Time.deltaTime * Vector3.up / 100f;
+                    cacheTransform.localPosition += baseBulletInfo.moveSpeed * Time.deltaTime * cacheTransform.up / 100f;
 
                     //超边界判定 TODO
                 }

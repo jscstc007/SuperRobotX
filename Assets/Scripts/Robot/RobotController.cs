@@ -130,7 +130,14 @@ public class RobotController : MonoBehaviour {
 
                 if (Time.frameCount % frame == 0)
                 {
-                    PoolManager.Instance.CreateBullet(weapon.weaponBulletType, RobotTransform, power);
+                    Vector3[] pos = weapon.pos;
+
+                    int count = weapon.pos.Length;
+                    for (int i = 0; i < count; i++)
+                    {
+                        PoolManager.Instance.CreateBullet(weapon.weaponBulletType, RobotTransform, pos[i], power);
+                    }
+                   
                 }
             }
         }

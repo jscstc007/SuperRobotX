@@ -25,6 +25,8 @@ public class BaseWeaponInfo
     public BulletType weaponBulletType;
     /// <summary> 武器等级 </summary>
     public int weaponLevel;
+    /// <summary> 武器初始位置(x,y,rot) </summary>
+    public Vector3[] pos;
     /// <summary> 武器点数消耗 </summary>
     public int weaponPointsCost;
     /// <summary> 武器速度 </summary>
@@ -40,7 +42,7 @@ public class BaseWeaponInfo
     /// <summary> 武器升级消耗提升 </summary>
     public int weaponUpgradeCostUp;
 
-    public BaseWeaponInfo(WeaponType weaponType, string weaponName, string weaponResName, string weaponInfo, BulletType weaponBulletType, int weaponLevel, int weaponPointsCost, int shootSpeed, int shootSpeedUpPerLevel, int shootPower, int shootPowerUpPerLevel, int weaponUpgradeCost, int weaponUpgradeCostUp)
+    public BaseWeaponInfo(WeaponType weaponType, string weaponName, string weaponResName, string weaponInfo, BulletType weaponBulletType, int weaponLevel, Vector3[] pos, int weaponPointsCost, int shootSpeed, int shootSpeedUpPerLevel, int shootPower, int shootPowerUpPerLevel, int weaponUpgradeCost, int weaponUpgradeCostUp)
     {
         this.weaponType = weaponType;
         this.weaponName = weaponName;
@@ -48,6 +50,7 @@ public class BaseWeaponInfo
         this.weaponInfo = weaponInfo;
         this.weaponBulletType = weaponBulletType;
         this.weaponLevel = weaponLevel;
+        this.pos = pos;
         this.weaponPointsCost = weaponPointsCost;
         this.shootSpeed = shootSpeed;
         this.shootSpeedUpPerLevel = shootSpeedUpPerLevel;
@@ -97,6 +100,16 @@ public class WeaponInfo : ISingleton<WeaponInfo>
             string weaponInfo = WeaponJsonData[key]["info"].ToString();
             string resName = WeaponJsonData[key]["res"].ToString();
             BulletType bulletType = (BulletType)((int)WeaponJsonData[key]["bullet"]);
+            List<Vector3> pos = new List<Vector3>();
+            int count = WeaponJsonData[key]["pos"].Count;
+            for (int i = 0;i < count / 3; i++)
+            {
+                int x = (int)WeaponJsonData[key]["pos"][i * 3];
+                int y = (int)WeaponJsonData[key]["pos"][i * 3 + 1];
+                int rot = (int)WeaponJsonData[key]["pos"][i * 3 + 2];
+
+                pos.Add(new Vector3(x,y,rot));
+            }
             int cost = (int)WeaponJsonData[key]["cost"];
             int speed = (int)WeaponJsonData[key]["shootSpeed"];
             int speedUp = (int)WeaponJsonData[key]["shootSpeedUp"];
@@ -105,7 +118,7 @@ public class WeaponInfo : ISingleton<WeaponInfo>
             int upgradeCost = (int)WeaponJsonData[key]["upgradeCost"];
             int upgradeCostUp = (int)WeaponJsonData[key]["upgradeCostUp"];
 
-            data = new BaseWeaponInfo(type, weaponName, resName, weaponInfo, bulletType, weaponLevel, cost, speed, speedUp, power, powerUp, upgradeCost, upgradeCostUp);
+            data = new BaseWeaponInfo(type, weaponName, resName, weaponInfo, bulletType, weaponLevel, pos.ToArray() , cost, speed, speedUp, power, powerUp, upgradeCost, upgradeCostUp);
 
             //缓存
             LoadedData.Add(type, data);

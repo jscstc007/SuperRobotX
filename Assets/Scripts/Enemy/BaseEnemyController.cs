@@ -104,7 +104,7 @@ public class BaseEnemyController : MonoBehaviour
     /// <summary>
     /// 命中后闪烁
     /// </summary>
-    public void DoFlash ()
+    public void DoFlash()
     {
         //TODO
     }
@@ -144,7 +144,11 @@ public class BaseEnemyController : MonoBehaviour
 
                 if (Time.frameCount % frame == 0)
                 {
-                    PoolManager.Instance.CreateBullet(weapon.weaponBulletType, cacheTransform, power);
+                    int count = weapon.pos.Length;
+                    for (int i = 0;i < count;i++)
+                    {
+                        PoolManager.Instance.CreateBullet(weapon.weaponBulletType, cacheTransform, weapon.pos[i], power);
+                    }
                 }
             }
         }

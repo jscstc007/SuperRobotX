@@ -4,38 +4,62 @@
     "info": "性能均衡的火炮",
     "res": "base_weapon_1",
     "bullet": 80101,
+    "pos": [
+      0,
+      0,
+      0
+    ],
     "cost": 1,
-    "shootSpeed": 50,
-    "shootSpeedUp": 5,
+    "shootSpeed": 10,
+    "shootSpeedUp": 1,
     "power": 8,
     "powerUp": 1,
     "upgradeCost": 1000,
     "upgradeCostUp": 200
   },
   "20102": {
-    "name": "高速火炮",
+    "name": "双管高速火炮",
     "info": "射速较高的火炮",
     "res": "base_weapon_2",
     "bullet": 80102,
+    "pos": [
+      -1,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
     "cost": 2,
-    "shootSpeed": 200,
-    "shootSpeedUp": 20,
-    "power": 4,
+    "shootSpeed": 20,
+    "shootSpeedUp": 2,
+    "power": 3,
     "powerUp": 1,
-    "upgradeCost": 1000,
-    "upgradeCostUp": 200
+    "upgradeCost": 1500,
+    "upgradeCostUp": 300
   },
   "20103": {
-    "name": "超速火炮",
+    "name": "三管超速火炮",
     "info": "射速极高的火炮",
     "res": "base_weapon_3",
     "bullet": 80103,
+    "pos": [
+      -1,
+      0,
+      10,
+      0,
+      0,
+      0,
+      1,
+      0,
+      -10
+    ],
     "cost": 2,
-    "shootSpeed": 500,
-    "shootSpeedUp": 50,
+    "shootSpeed": 30,
+    "shootSpeedUp": 3,
     "power": 2,
     "powerUp": 0,
-    "upgradeCost": 1000,
-    "upgradeCostUp": 200
+    "upgradeCost": 2000,
+    "upgradeCostUp": 500
   }
 }

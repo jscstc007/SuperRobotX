@@ -5,22 +5,31 @@
     "res": "robot_base_1",
     "attribute": [
       {
-        "speed": 60,
+        "speed": 40,
         "maxHP": 40,
         "weapon": 1,
         "defense": 1,
         "move": 1,
         "other": 1,
-        "cost": 1000
+        "cost": 500
       },
       {
-        "speed": 60,
+        "speed": 40,
         "maxHP": 50,
         "weapon": 2,
         "defense": 1,
         "move": 1,
         "other": 1,
-        "cost": 1200
+        "cost": 800
+      },
+      {
+        "speed": 50,
+        "maxHP": 50,
+        "weapon": 2,
+        "defense": 1,
+        "move": 1,
+        "other": 1,
+        "cost": 2000
       },
       {
         "speed": 60,
@@ -32,20 +41,10 @@
         "cost": 2000
       },
       {
-        "speed": 60,
-        "maxHP": 60,
-        "weapon": 3,
-        "defense": 2,
-        "move": 1,
-        "other": 1,
-        "cost": 4000
-      }
-      ,
-      {
-        "speed": 60,
+        "speed": 80,
         "maxHP": 80,
         "weapon": 4,
-        "defense": 2,
+        "defense": 1,
         "move": 1,
         "other": 1,
         "cost": 6000

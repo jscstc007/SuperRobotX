@@ -75,6 +75,8 @@ public class UIController : MonoBehaviour
         startB.onClick.AddListener(StartGame);
         Button diyB = MenuP.Find("DIY_B").GetComponent<Button>();
         diyB.onClick.AddListener(ShowDIYP);
+        Button clearB = MenuP.Find("Clear_B").GetComponent<Button>();
+        clearB.onClick.AddListener(ClearData);
         //DIY
         Button leftRobotB = DIYP.Find("Robot_P/Left_B").GetComponent<Button>();
         leftRobotB.onClick.AddListener(ChooseLeftRobot);
@@ -171,6 +173,14 @@ public class UIController : MonoBehaviour
     }
 
     /// <summary>
+    /// 清空游戏数据
+    /// </summary>
+    private void ClearData ()
+    {
+        DataManager.Instance.ClearAllData();
+    }
+
+    /// <summary>
     /// 暂停游戏
     /// </summary>
     private void PauseGame()
@@ -195,6 +205,11 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void ShowGameOverUI()
     {
+        //结算金币
+        RobotInfo.Instance.Coin += RobotInfo.Instance.Score;
+
+        Debug.Log("游戏结束 金币结算:" + RobotInfo.Instance.Score);
+
         GameOverP.gameObject.SetActive(true);
     }
 
@@ -236,6 +251,8 @@ public class UIController : MonoBehaviour
         scoreT.text = string.Format("得分:{0}", RobotInfo.Instance.Score);
     }
 
+    
+
     /// <summary>
     /// 选择前一个机器人
     /// </summary>
@@ -268,8 +285,8 @@ public class UIController : MonoBehaviour
             RobotType robotType = robotInfo.robotType;
             int newLevel = robotInfo.robotLevel + 1;
 
-            Debug.Log("DoUpRobot:" + newLevel);
-
+            //更新数据库
+            DataManager.Instance.SaveRobotLevel(robotType, newLevel);
             //更新robot数据
             RobotInfo.Instance.MainRobotInfo = RobotInfo.Instance.LoadBaseRobotData(robotType, newLevel);
 
@@ -319,15 +336,17 @@ public class UIController : MonoBehaviour
     /// </summary>
     private void ShowEquipList(EquipUIType type)
     {
+        bool resetPos = type != equipUIType;
+
         equipUIType = type;
 
-        UpdateEquipList();
+        UpdateEquipList(resetPos);
     }
 
     /// <summary>
     /// 刷新当前Equip信息
     /// </summary>
-    private void UpdateEquipList()
+    private void UpdateEquipList(bool resetPos)
     {
         //获取原型并隐藏
         equipItem.gameObject.SetActive(false);
@@ -345,7 +364,10 @@ public class UIController : MonoBehaviour
                 int count = types.Length;
 
                 equipScrollP.GetComponent<RectTransform>().sizeDelta = new Vector2(0, Mathf.Max(900, 200 * count));
-                equipScrollP.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                if (resetPos)
+                {
+                    equipScrollP.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                }
 
                 for (int i = 0; i < count; i++)
                 {
@@ -363,6 +385,7 @@ public class UIController : MonoBehaviour
 
                     BaseWeaponInfo baseWeaponInfo = WeaponInfo.Instance.LoadBaseWeaponData(tempType, tempLevel);
                     bool isMaxLevel = tempLevel >= WeaponInfo.MAX_WEAPON_LEVEL;
+                    bool isEquip = DataManager.Instance.LoadEquipWeapon().Contains(tempType);
 
                     trans.Find("I").GetComponent<Image>().sprite = ResourcesLoadManager.LoadWeaponResources<GameObject>(baseWeaponInfo.weaponResName).GetComponent<SpriteRenderer>().sprite;
                     trans.Find("Cost_T").GetComponent<Text>().text = string.Format("节点消耗:{0}", baseWeaponInfo.weaponPointsCost);
@@ -373,7 +396,8 @@ public class UIController : MonoBehaviour
                     Button equipB = trans.Find("Equip_B").GetComponent<Button>();
 
                     upgradeB.interactable = !isMaxLevel;
-                    trans.Find("Upgrade_B/Value_T").GetComponent<Text>().text = isMaxLevel ? "Max" : string.Format("升级:{0}", baseWeaponInfo.weaponUpgradeCost + tempLevel * baseWeaponInfo.weaponUpgradeCostUp);
+                    upgradeB.transform.Find("Value_T").GetComponent<Text>().text = isMaxLevel ? "Max" : string.Format("升级:{0}", baseWeaponInfo.weaponUpgradeCost + tempLevel * baseWeaponInfo.weaponUpgradeCostUp);
+                    equipB.transform.Find("Value_T").GetComponent<Text>().text = isEquip ? "卸载" : "装备";
 
                     //注册按钮方法
                     upgradeB.onClick.AddListener(() => { DoUpgradeModule(tempType); });
@@ -395,14 +419,65 @@ public class UIController : MonoBehaviour
     /// </summary>
     private void DoUpgradeModule(WeaponType type)
     {
-        //TODO
+        int weaponLevel = DataManager.Instance.LoadWeaponLevel(type);
+        BaseWeaponInfo data = WeaponInfo.Instance.LoadBaseWeaponData(type, weaponLevel);
+        int cost = data.weaponUpgradeCost + weaponLevel * data.weaponUpgradeCostUp;
+        
+        if (RobotInfo.Instance.Coin >= cost)
+        {
+            RobotInfo.Instance.Coin -= cost;
+
+            //更新数据库
+            DataManager.Instance.SaveWeaponLevel(type, weaponLevel + 1);
+
+            UpdateEquipList(false);
+        }
+        else
+        {
+            //TODO
+        }
     }
     /// <summary>
     /// 穿上/卸下 模块
     /// </summary>
     private void DoEquipOrUnequipModule(WeaponType type)
     {
-        //TODO
+        List<WeaponType> equipWeapon = DataManager.Instance.LoadEquipWeapon();
+
+        //卸下
+        if (equipWeapon.Contains(type))
+        {
+            equipWeapon.Remove(type);
+
+            DataManager.Instance.SaveEquipWeapon(equipWeapon);
+
+            //UI更新
+            UpdateEquipList(false);
+        }
+        //穿戴
+        else
+        {
+            int totalPoints = 0;
+            foreach(WeaponType tempType in equipWeapon)
+            {
+                totalPoints += WeaponInfo.Instance.LoadBaseWeaponData(tempType).weaponPointsCost;
+            }
+            
+            if (RobotInfo.Instance.MainRobotInfo.weaponPoints >= totalPoints + WeaponInfo.Instance.LoadBaseWeaponData(type).weaponPointsCost)
+            {
+                equipWeapon.Add(type);
+
+                DataManager.Instance.SaveEquipWeapon(equipWeapon);
+
+                //UI更新
+                UpdateEquipList(false);
+            }
+            else
+            {
+                //TODO 点数不够
+                Debug.Log("点数不足");
+            }
+        }
     }
 
     /// <summary>

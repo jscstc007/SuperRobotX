@@ -93,12 +93,13 @@ public class GameController : MonoBehaviour {
     private void Start()
     {
         //加载信息
-        //读取当前主角数据 
 
-        //TODO
-        RobotInfo.Instance.Coin = 80000;
-        RobotInfo.Instance.MainRobotInfo = RobotInfo.Instance.LoadBaseRobotData(RobotType.Base_Plane, 0);
-        RobotInfo.Instance.WeaponModule = new BaseWeaponInfo[] { WeaponInfo.Instance.LoadBaseWeaponData(WeaponType.Base_BB_Lv1, 0) };
+        //TODO 以下部分待完善
+
+        //读取当前主角数据 
+        RobotType mainRobotType = RobotType.Base_Plane;
+        int mainRobotLevel = DataManager.Instance.LoadRobotLevel(mainRobotType);
+        RobotInfo.Instance.MainRobotInfo = RobotInfo.Instance.LoadBaseRobotData(mainRobotType, mainRobotLevel);
     }
 
     /// <summary> 玩家初始位置 </summary>

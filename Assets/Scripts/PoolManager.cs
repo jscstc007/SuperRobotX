@@ -59,7 +59,7 @@ public class PoolManager : ISingleton<PoolManager>
     /// <summary>
     /// 激活一个子弹
     /// </summary>
-    public void CreateBullet(BulletType type, Transform parent, int power)
+    public void CreateBullet(BulletType type, Transform parent, Vector3 pos, int power)
     {
         bool needCreate = true;
 
@@ -77,7 +77,7 @@ public class PoolManager : ISingleton<PoolManager>
             {
                 needCreate = false;
                 //更新数据
-                tempController.InitBulletData(parent, power);
+                tempController.InitBulletData(parent, pos, power);
 
                 break;
             }
@@ -86,14 +86,14 @@ public class PoolManager : ISingleton<PoolManager>
         //否则生成新的
         if (needCreate)
         {
-            BulletPool[type].Add(CreateBulletUtil(type, parent, power));
+            BulletPool[type].Add(CreateBulletUtil(type, parent, pos, power));
         }
     }
 
     /// <summary>
     /// 创建一个新的子弹
     /// </summary>
-    private BaseBulletController CreateBulletUtil(BulletType type, Transform parent, int power)
+    private BaseBulletController CreateBulletUtil(BulletType type, Transform parent, Vector3 pos, int power)
     {
         //根据子弹类型 生成数据
         BaseBulletInfo data = BulletInfo.Instance.GetBulletData(type, power);
@@ -103,7 +103,7 @@ public class PoolManager : ISingleton<PoolManager>
         bullet.transform.SetParent(GameController.Instance.BulletGroup);
 
         BaseBulletController bulletController = bullet.AddComponent<BaseBulletController>();
-        bulletController.InitBulletData(parent, bullet.transform, data);
+        bulletController.InitBulletData(parent, bullet.transform, pos, data);
 
         return bulletController;
     }
