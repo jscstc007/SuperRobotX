@@ -11,7 +11,8 @@ public enum EquipUIType
     Other,
 }
 
-public class UIController : MonoBehaviour {
+public class UIController : MonoBehaviour
+{
 
     private Transform UIRoot;
 
@@ -52,11 +53,12 @@ public class UIController : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         InitMenuUI();
     }
 
-    private void InitMenuUI ()
+    private void InitMenuUI()
     {
         MenuP.gameObject.SetActive(true);
         DIYP.gameObject.SetActive(false);
@@ -66,7 +68,7 @@ public class UIController : MonoBehaviour {
         GameOverP.gameObject.SetActive(false);
     }
 
-    private void RegistUIMethod ()
+    private void RegistUIMethod()
     {
         //MENU
         Button startB = MenuP.Find("Start_B").GetComponent<Button>();
@@ -82,7 +84,7 @@ public class UIController : MonoBehaviour {
         upRobotB.onClick.AddListener(DoUpRobot);
 
         Button equipWeaponB = DIYP.Find("Equip_P/Tag_P/0_B").GetComponent<Button>();
-        equipWeaponB.onClick.AddListener(()=> { ShowEquipList(EquipUIType.Weapon); });
+        equipWeaponB.onClick.AddListener(() => { ShowEquipList(EquipUIType.Weapon); });
         Button equipDefenseB = DIYP.Find("Equip_P/Tag_P/1_B").GetComponent<Button>();
         equipDefenseB.onClick.AddListener(() => { ShowEquipList(EquipUIType.Defense); });
         Button equipSpeedB = DIYP.Find("Equip_P/Tag_P/2_B").GetComponent<Button>();
@@ -127,7 +129,7 @@ public class UIController : MonoBehaviour {
         EventManager.Instance.RegistEvent(EventType.PlayerCoinChange, OnUpdateUI_Coin);
     }
 
-    private void RemoveUIMethod ()
+    private void RemoveUIMethod()
     {
         //TODO
     }
@@ -142,7 +144,7 @@ public class UIController : MonoBehaviour {
     /// <summary>
     /// 开始游戏
     /// </summary>
-    private void StartGame ()
+    private void StartGame()
     {
         MenuP.gameObject.SetActive(false);
         DIYP.gameObject.SetActive(false);
@@ -157,7 +159,7 @@ public class UIController : MonoBehaviour {
     /// <summary>
     /// 展示DIY面板(刷新信息)
     /// </summary>
-    private void ShowDIYP ()
+    private void ShowDIYP()
     {
         MenuP.gameObject.SetActive(false);
         DIYP.gameObject.SetActive(true);
@@ -171,7 +173,7 @@ public class UIController : MonoBehaviour {
     /// <summary>
     /// 暂停游戏
     /// </summary>
-    private void PauseGame ()
+    private void PauseGame()
     {
         PauseP.gameObject.SetActive(true);
 
@@ -181,7 +183,7 @@ public class UIController : MonoBehaviour {
     /// <summary>
     /// 继续游戏
     /// </summary>
-    private void ResumeGame ()
+    private void ResumeGame()
     {
         PauseP.gameObject.SetActive(false);
 
@@ -191,7 +193,7 @@ public class UIController : MonoBehaviour {
     /// <summary>
     /// 展示游戏结束UI
     /// </summary>
-    public void ShowGameOverUI ()
+    public void ShowGameOverUI()
     {
         GameOverP.gameObject.SetActive(true);
     }
@@ -199,7 +201,7 @@ public class UIController : MonoBehaviour {
     /// <summary>
     /// 返回主界面
     /// </summary>
-    private void ReturnToMenu ()
+    private void ReturnToMenu()
     {
         InitMenuUI();
 
@@ -212,16 +214,16 @@ public class UIController : MonoBehaviour {
     /// <summary>
     /// 更新金币信息
     /// </summary>
-    private void OnUpdateUI_Coin (params int[] data)
+    private void OnUpdateUI_Coin(params int[] data)
     {
         Text coinT = DIYP.Find("Coin_T").GetComponent<Text>();
-        coinT.text = string.Format("金币:{0}",RobotInfo.Instance.Coin);
+        coinT.text = string.Format("金币:{0}", RobotInfo.Instance.Coin);
     }
 
     /// <summary>
     /// 更新HP信息
     /// </summary>
-    private void OnUpdateUI_HP (params int[] data)
+    private void OnUpdateUI_HP(params int[] data)
     {
         hpI.fillAmount = (float)RobotInfo.Instance.HP / (float)RobotInfo.Instance.MainRobotInfo.maxHP;
         hpT.text = string.Format("{0}/{1}", RobotInfo.Instance.HP, RobotInfo.Instance.MainRobotInfo.maxHP);
@@ -237,7 +239,7 @@ public class UIController : MonoBehaviour {
     /// <summary>
     /// 选择前一个机器人
     /// </summary>
-    private void ChooseLeftRobot ()
+    private void ChooseLeftRobot()
     {
         //TODO
     }
@@ -253,7 +255,7 @@ public class UIController : MonoBehaviour {
     /// <summary>
     /// 升级 机器人
     /// </summary>
-    private void DoUpRobot ()
+    private void DoUpRobot()
     {
         BaseRobotInfo robotInfo = RobotInfo.Instance.MainRobotInfo;
 
@@ -269,7 +271,7 @@ public class UIController : MonoBehaviour {
             Debug.Log("DoUpRobot:" + newLevel);
 
             //更新robot数据
-            RobotInfo.Instance.MainRobotInfo = RobotInfo.Instance.LoadBaseRobotData(robotType,newLevel);
+            RobotInfo.Instance.MainRobotInfo = RobotInfo.Instance.LoadBaseRobotData(robotType, newLevel);
 
             UpdateRobotUI();
         }
@@ -282,7 +284,7 @@ public class UIController : MonoBehaviour {
     /// <summary>
     /// 根据当前机器人和等级更新UI显示信息
     /// </summary>
-    private void UpdateRobotUI ()
+    private void UpdateRobotUI()
     {
         Image headI = DIYP.Find("Robot_P/I").GetComponent<Image>();
         Text nameT = DIYP.Find("Robot_P/Name_T").GetComponent<Text>();
@@ -315,7 +317,7 @@ public class UIController : MonoBehaviour {
     /// <summary>
     /// 刷新当前Equip信息
     /// </summary>
-    private void ShowEquipList (EquipUIType type)
+    private void ShowEquipList(EquipUIType type)
     {
         equipUIType = type;
 
@@ -325,7 +327,7 @@ public class UIController : MonoBehaviour {
     /// <summary>
     /// 刷新当前Equip信息
     /// </summary>
-    private void UpdateEquipList ()
+    private void UpdateEquipList()
     {
         //获取原型并隐藏
         equipItem.gameObject.SetActive(false);
@@ -335,49 +337,63 @@ public class UIController : MonoBehaviour {
             Destroy(equipScrollP.GetChild(i).gameObject);
         }
 
-        WeaponType[] types = WeaponInfo.GetAllWeapons();
-        int count = types.Length;
-
-        equipScrollP.GetComponent<RectTransform>().sizeDelta = new Vector2(0, Mathf.Max(900, 200 * count));
-        equipScrollP.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-        
-        for (int i = 0; i < count; i++)
+        switch (equipUIType)
         {
-            GameObject go = Instantiate<GameObject>(equipItem.gameObject);
-            Transform trans = go.transform;
-            go.SetActive(true);
-            go.name = i.ToString();
-            trans.SetParent(equipScrollP);
-            trans.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -200 * i);
-            trans.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 200);
-            trans.GetComponent<RectTransform>().localScale = Vector3.one;
+            case EquipUIType.Weapon:
 
-            WeaponType tempType = types[i];
-            int tempLevel = DataManager.Instance.LoadWeaponLevel(tempType);
+                WeaponType[] types = WeaponInfo.GetAllWeapons();
+                int count = types.Length;
 
-            BaseWeaponInfo baseWeaponInfo = WeaponInfo.Instance.LoadBaseWeaponData(tempType, tempLevel);
-            bool isMaxLevel = tempLevel >= WeaponInfo.MAX_WEAPON_LEVEL;
+                equipScrollP.GetComponent<RectTransform>().sizeDelta = new Vector2(0, Mathf.Max(900, 200 * count));
+                equipScrollP.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
 
-            trans.Find("I").GetComponent<Image>().sprite = ResourcesLoadManager.LoadWeaponResources<GameObject>(baseWeaponInfo.weaponResName).GetComponent<SpriteRenderer>().sprite;
-            trans.Find("Cost_T").GetComponent<Text>().text = string.Format("节点消耗:{0}", baseWeaponInfo.weaponPointsCost); 
-            trans.Find("Power_T").GetComponent<Text>().text = string.Format("武器威力:{0}", baseWeaponInfo.shootPower + tempLevel * baseWeaponInfo.shootPowerUpPerLevel);
-            trans.Find("Speed_T").GetComponent<Text>().text = string.Format("武器射速:{0}", baseWeaponInfo.shootSpeed + tempLevel * baseWeaponInfo.shootSpeedUpPerLevel);
+                for (int i = 0; i < count; i++)
+                {
+                    GameObject go = Instantiate<GameObject>(equipItem.gameObject);
+                    Transform trans = go.transform;
+                    go.SetActive(true);
+                    go.name = i.ToString();
+                    trans.SetParent(equipScrollP);
+                    trans.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -200 * i);
+                    trans.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 200);
+                    trans.GetComponent<RectTransform>().localScale = Vector3.one;
 
-            Button upgradeB = trans.Find("Upgrade_B").GetComponent<Button>();
-            Button equipB = trans.Find("Equip_B").GetComponent<Button>();
+                    WeaponType tempType = types[i];
+                    int tempLevel = DataManager.Instance.LoadWeaponLevel(tempType);
 
-            upgradeB.interactable = !isMaxLevel;
-            trans.Find("Upgrade_B/Value_T").GetComponent<Text>().text = isMaxLevel ? "Max" : string.Format("升级:{0}", baseWeaponInfo.weaponUpgradeCost + tempLevel * baseWeaponInfo.weaponUpgradeCostUp);
+                    BaseWeaponInfo baseWeaponInfo = WeaponInfo.Instance.LoadBaseWeaponData(tempType, tempLevel);
+                    bool isMaxLevel = tempLevel >= WeaponInfo.MAX_WEAPON_LEVEL;
 
-            //注册按钮方法
-            upgradeB.onClick.AddListener( ()=> { DoUpgradeModule(tempType); } );
-            equipB.onClick.AddListener(() => { DoEquipOrUnequipModule(tempType); });
+                    trans.Find("I").GetComponent<Image>().sprite = ResourcesLoadManager.LoadWeaponResources<GameObject>(baseWeaponInfo.weaponResName).GetComponent<SpriteRenderer>().sprite;
+                    trans.Find("Cost_T").GetComponent<Text>().text = string.Format("节点消耗:{0}", baseWeaponInfo.weaponPointsCost);
+                    trans.Find("Power_T").GetComponent<Text>().text = string.Format("武器威力:{0}", baseWeaponInfo.shootPower + tempLevel * baseWeaponInfo.shootPowerUpPerLevel);
+                    trans.Find("Speed_T").GetComponent<Text>().text = string.Format("武器射速:{0}", baseWeaponInfo.shootSpeed + tempLevel * baseWeaponInfo.shootSpeedUpPerLevel);
+
+                    Button upgradeB = trans.Find("Upgrade_B").GetComponent<Button>();
+                    Button equipB = trans.Find("Equip_B").GetComponent<Button>();
+
+                    upgradeB.interactable = !isMaxLevel;
+                    trans.Find("Upgrade_B/Value_T").GetComponent<Text>().text = isMaxLevel ? "Max" : string.Format("升级:{0}", baseWeaponInfo.weaponUpgradeCost + tempLevel * baseWeaponInfo.weaponUpgradeCostUp);
+
+                    //注册按钮方法
+                    upgradeB.onClick.AddListener(() => { DoUpgradeModule(tempType); });
+                    equipB.onClick.AddListener(() => { DoEquipOrUnequipModule(tempType); });
+                }
+
+                break;
+
+            case EquipUIType.Defense:
+                break;
+            case EquipUIType.Speed:
+                break;
+            case EquipUIType.Other:
+                break;
         }
     }
     /// <summary>
     /// 升级 模块
     /// </summary>
-    private void DoUpgradeModule (WeaponType type)
+    private void DoUpgradeModule(WeaponType type)
     {
         //TODO
     }
@@ -392,7 +408,7 @@ public class UIController : MonoBehaviour {
     /// <summary>
     /// 展示商店页面
     /// </summary>
-    private void DoShop ()
+    private void DoShop()
     {
         //TODO
     }
