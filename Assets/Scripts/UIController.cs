@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public enum EquipUIType
 {
     Weapon,
-    Defense,
-    Speed,
     Other,
 }
 
@@ -87,11 +85,7 @@ public class UIController : MonoBehaviour
 
         Button equipWeaponB = DIYP.Find("Equip_P/Tag_P/0_B").GetComponent<Button>();
         equipWeaponB.onClick.AddListener(() => { ShowEquipList(EquipUIType.Weapon); });
-        Button equipDefenseB = DIYP.Find("Equip_P/Tag_P/1_B").GetComponent<Button>();
-        equipDefenseB.onClick.AddListener(() => { ShowEquipList(EquipUIType.Defense); });
-        Button equipSpeedB = DIYP.Find("Equip_P/Tag_P/2_B").GetComponent<Button>();
-        equipSpeedB.onClick.AddListener(() => { ShowEquipList(EquipUIType.Speed); });
-        Button equipOtherB = DIYP.Find("Equip_P/Tag_P/3_B").GetComponent<Button>();
+        Button equipOtherB = DIYP.Find("Equip_P/Tag_P/1_B").GetComponent<Button>();
         equipOtherB.onClick.AddListener(() => { ShowEquipList(EquipUIType.Other); });
 
         Button diyReturnB = DIYP.Find("Setting_P/Return_B").GetComponent<Button>();
@@ -320,8 +314,6 @@ public class UIController : MonoBehaviour
         headI.sprite = ResourcesLoadManager.LoadRobotResources<GameObject>(RobotInfo.Instance.MainRobotInfo.robotResName).GetComponent<SpriteRenderer>().sprite;
         nameT.text = RobotInfo.Instance.MainRobotInfo.robotName;
         weaponT.text = string.Format("武器节点:{0}", RobotInfo.Instance.MainRobotInfo.weaponPoints);
-        defenseT.text = string.Format("防御节点:{0}", RobotInfo.Instance.MainRobotInfo.defensePoints);
-        speedT.text = string.Format("引擎节点:{0}", RobotInfo.Instance.MainRobotInfo.movePoints);
         otherT.text = string.Format("特殊节点:{0}", RobotInfo.Instance.MainRobotInfo.otherPoints);
         infoT.text = string.Format("{0}", RobotInfo.Instance.MainRobotInfo.robotInfo);
         hpT.text = string.Format("生命:{0}", RobotInfo.Instance.MainRobotInfo.maxHP);
@@ -389,8 +381,8 @@ public class UIController : MonoBehaviour
 
                     trans.Find("I").GetComponent<Image>().sprite = ResourcesLoadManager.LoadWeaponResources<GameObject>(baseWeaponInfo.weaponResName).GetComponent<SpriteRenderer>().sprite;
                     trans.Find("Cost_T").GetComponent<Text>().text = string.Format("节点消耗:{0}", baseWeaponInfo.weaponPointsCost);
-                    trans.Find("Power_T").GetComponent<Text>().text = string.Format("武器威力:{0}", baseWeaponInfo.shootPower + tempLevel * baseWeaponInfo.shootPowerUpPerLevel);
-                    trans.Find("Speed_T").GetComponent<Text>().text = string.Format("武器射速:{0}", baseWeaponInfo.shootSpeed + tempLevel * baseWeaponInfo.shootSpeedUpPerLevel);
+                    trans.Find("Attribute_0_T").GetComponent<Text>().text = string.Format("武器威力:{0}", baseWeaponInfo.shootPower + tempLevel * baseWeaponInfo.shootPowerUpPerLevel);
+                    trans.Find("Attribute_1_T").GetComponent<Text>().text = string.Format("武器射速:{0}", baseWeaponInfo.shootSpeed + tempLevel * baseWeaponInfo.shootSpeedUpPerLevel);
 
                     Button upgradeB = trans.Find("Upgrade_B").GetComponent<Button>();
                     Button equipB = trans.Find("Equip_B").GetComponent<Button>();
@@ -405,12 +397,11 @@ public class UIController : MonoBehaviour
                 }
 
                 break;
-
-            case EquipUIType.Defense:
-                break;
-            case EquipUIType.Speed:
-                break;
+                
+            
             case EquipUIType.Other:
+
+                //TODO
                 break;
         }
     }
